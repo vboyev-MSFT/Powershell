@@ -1,0 +1,28 @@
+# Create a function to show a notification
+function Show-BalloonTip {
+    param (
+        [string]$Title,
+        [string]$Message,
+        [int]$DurationMilliseconds = 5000
+    )
+
+    # Load the System.Windows.Forms assembly
+    Add-Type -AssemblyName System.Windows.Forms
+
+    # Create a NotifyIcon instance
+    $notifyIcon = New-Object System.Windows.Forms.NotifyIcon
+    $notifyIcon.Icon = [System.Drawing.SystemIcons]::Information
+    $notifyIcon.BalloonTipIcon = [System.Windows.Forms.ToolTipIcon]::Info
+    $notifyIcon.BalloonTipText = $Message
+    $notifyIcon.BalloonTipTitle = $Title
+    $notifyIcon.Visible = $true
+
+    # Show the balloon tip
+    $notifyIcon.ShowBalloonTip($DurationMilliseconds)
+
+    # Clean up
+    $notifyIcon.Dispose()
+}
+
+# Example usage
+Show-BalloonTip -Title "Live Response Session In Progress" -Message "Back slowly away from the keyboard and put down your mouse"
